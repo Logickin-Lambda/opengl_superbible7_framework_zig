@@ -1,5 +1,12 @@
-# This is the next step after a triangle
+# OpenGL SuperBible 7th Edition Framework in zig
+I have been learning OpenGL for a month, but I was stuck at the cube code example because I find it difficult to learn from the book without actually writing some code, while I am not a fan of having all code, libraries, and cmake build projects clump into a single folder, nor I want to work with cmake. Since I also want to learn about zig which I have planned for writing some gui application or even games, I decided to port the sb7.h into zig.
 
-After I have plotted an triangle, and able to how to take use OpenGL with zig and its dependencies, I decided to a step further with porting the sb7.h from the OpenGL Superbible 7th edition so that I can use zig to learn from the book and trying to figuring how to port code with OOP concept into zig with similar workflow. If I have a working framework, I will separate it from my current project for other future learning project.
+However, this library have a problem that the header file has a class defined which is not a pure C implementation that is not compatible with zig, so I have to take some time to find a way how to make it work with zig while it have a similar look and feel to the OpenGL superbible example. At the end, I seemed to find a working solution using function pointer as a substitute to the object classes to override any default functions.
 
-Besides, I am trying to replicate the **indexedcube** example from the superbible, to learn about how the vao (vertex array object) and vbo (vertex buffer object) work.
+Hope you find it useful if you want to get into OpenGL with zig.
+
+# Dependencies
+This sb7.h port applied with three dependencies:
+[castholm - zigglen](https://github.com/castholm/zigglgen)
+[zig-gamedev - zglfw](https://github.com/zig-gamedev/zglfw)
+[griush - zm](https://github.com/griush/zm)
