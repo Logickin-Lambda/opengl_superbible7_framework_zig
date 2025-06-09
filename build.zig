@@ -31,7 +31,7 @@ pub fn build(b: *std.Build) void {
 
     const gl_bindings = @import("zigglgen").generateBindingsModule(b, .{
         .api = .gl,
-        .version = .@"4.3",
+        .version = .@"4.5",
         .profile = .core,
         .extensions = &.{ .ARB_clip_control, .NV_scissor_exclusive },
     });

@@ -1,13 +1,18 @@
 // These are the libraries used in the examples,
 // you may find the respostories from build.zig.zon
 const std = @import("std");
-const app = @import("application.zig");
+const app = @import("sb7.zig");
 const shader = @import("shaders_triangle.zig");
 
 var program: app.gl.uint = undefined;
 var vao: app.gl.uint = undefined;
 
 pub fn main() !void {
+    // Many people seem to hate the dynamic loading part of the program.
+    // I also hate it too, but I don't seem to find a good solution (yet)
+    // that is aligned with both zig good practice and the book
+    // which is unfortunately abstracted all tbe inner details.
+
     // "override" your program using function pointer,
     // and the run function will process them all
     app.start_up = startup;
