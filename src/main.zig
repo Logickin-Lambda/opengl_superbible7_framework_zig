@@ -2,6 +2,7 @@
 // you may find the respostories from build.zig.zon
 const std = @import("std");
 const app = @import("sb7.zig");
+const ktx = @import("sb7ktx.zig");
 const shader = @import("shaders_triangle.zig");
 
 var program: app.gl.uint = undefined;
@@ -22,7 +23,6 @@ pub fn main() !void {
 }
 
 fn startup() callconv(.c) void {
-    program = app.gl.CreateProgram();
 
     // vertex shader
     const vs: app.gl.uint = app.gl.CreateShader(app.gl.VERTEX_SHADER);
@@ -33,6 +33,11 @@ fn startup() callconv(.c) void {
         &.{shader.vertexShaderImpl.len},
     );
     app.gl.CompileShader(vs);
+    var success: c_int = undefined;
+    var infoLog: [512:0]u8 = undefined;
+    app.verifyShader(vs, &success, &infoLog) catch {
+        return;
+    };
 
     // fragment shader
     const fs: app.gl.uint = app.gl.CreateShader(app.gl.FRAGMENT_SHADER);
@@ -40,10 +45,15 @@ fn startup() callconv(.c) void {
         fs,
         1,
         &.{shader.fragmentShaderImpl},
-        &.{@as(c_int, @intCast(shader.fragmentShaderImpl.len))},
+        &.{shader.fragmentShaderImpl.len},
     );
     app.gl.CompileShader(fs);
+    app.verifyShader(fs, &success, &infoLog) catch {
+        return;
+    };
 
+    // Now put all the shaders into the program
+    program = app.gl.CreateProgram();
     app.gl.AttachShader(program, vs);
     app.gl.AttachShader(program, fs);
 
